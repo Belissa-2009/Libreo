@@ -1,3 +1,10 @@
+import { AuthProvider } from '@/features/auth/AuthProvider';
+import { AppRoutes } from '@/routes';
+
 export default function App() {
-  return <h1>Libro Diario</h1>;
+  return (
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
+  );
 }
