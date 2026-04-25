@@ -879,6 +879,10 @@ export type Database = {
       }
     }
     Functions: {
+      create_book: {
+        Args: { p_base_currency: string; p_name: string }
+        Returns: string
+      }
       is_book_member: {
         Args: {
           p_book_id: string
