@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -13,6 +14,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Plus } from 'lucide-react';
+import { ExportButton } from '@/features/reports/components/ExportButton';
+import { downloadPdf } from '@/lib/exporters/pdf';
+import { downloadXlsx } from '@/lib/exporters/xlsx';
+import { toCsv, downloadCsv } from '@/lib/exporters/csv';
+import { JournalListPdf } from '@/features/journal/exporters/JournalListPdf';
+import { toJournalSheet } from '@/features/reports/exporters/sheets';
 
 export default function JournalPage() {
   const { activeBookId } = useActiveBook();
@@ -56,12 +63,20 @@ export default function JournalPage() {
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Libro diario</h1>
-        {canEdit && (
-          <Button size="sm" onClick={() => navigate('/journal/new')}>
-            <Plus className="h-4 w-4 mr-1" />
-            Nuevo asiento
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          <ExportButton
+            filenameBase={`diario_${fromDate || 'inicio'}_${toDate || 'hoy'}`}
+            pdf={() => downloadPdf(`diario_${fromDate || 'inicio'}_${toDate || 'hoy'}.pdf`, React.createElement(JournalListPdf, { bookName: myBook?.name ?? 'Libro', fromDate: fromDate || '—', toDate: toDate || '—', entries: data?.entries ?? [] }))}
+            xlsx={() => downloadXlsx(`diario_${fromDate || 'inicio'}_${toDate || 'hoy'}.xlsx`, [toJournalSheet(data?.entries ?? [])])}
+            csv={() => downloadCsv(`diario_${fromDate || 'inicio'}_${toDate || 'hoy'}.csv`, toCsv((data?.entries ?? []).map((e) => ({ Fecha: e.entry_date, Descripción: e.description ?? '', Referencia: e.reference ?? '', 'Total Debe': e.journal_lines.reduce((s, l) => s + Number(l.debit ?? 0), 0), Moneda: e.currency_code }))))}
+          />
+          {canEdit && (
+            <Button size="sm" onClick={() => navigate('/journal/new')}>
+              <Plus className="h-4 w-4 mr-1" />
+              Nuevo asiento
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Filters */}

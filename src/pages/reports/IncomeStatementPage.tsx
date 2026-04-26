@@ -1,10 +1,20 @@
 import { useState } from 'react'
+import React from 'react'
 import { useActiveBook } from '@/features/books/useActiveBook'
 import { useIncomeStatement } from '@/features/reports/hooks/useReports'
 import { DateRangePicker } from '@/features/reports/components/DateRangePicker'
 import { AccountTypeSection } from '@/features/reports/components/AccountTypeSection'
+import { ExportButton } from '@/features/reports/components/ExportButton'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
+import { downloadPdf } from '@/lib/exporters/pdf'
+import { downloadXlsx } from '@/lib/exporters/xlsx'
+import { toCsv, downloadCsv } from '@/lib/exporters/csv'
+import { IncomeStatementPdf } from '@/features/reports/exporters/IncomeStatementPdf'
+import { toIncomeStatementSheets } from '@/features/reports/exporters/sheets'
+import { useQuery } from '@tanstack/react-query'
+import { listBooks } from '@/features/books/api'
+import { useAuth } from '@/features/auth/AuthProvider'
 
 function today() {
   return new Date().toISOString().slice(0, 10)
@@ -19,11 +29,14 @@ function fmt(n: number) {
 }
 
 export default function IncomeStatementPage() {
+  const { user } = useAuth()
   const { activeBookId } = useActiveBook()
   const [from, setFrom] = useState(firstOfMonth())
   const [to, setTo] = useState(today())
 
   const { data: rows = [], isLoading, error } = useIncomeStatement(activeBookId ?? null, from, to)
+  const { data: books = [] } = useQuery({ queryKey: ['books', user?.id], queryFn: listBooks, enabled: !!user })
+  const bookName = books.find((b) => b.id === activeBookId)?.name ?? 'Libro'
 
   const incomeRows = rows.filter(r => r.type === 'income').map(r => ({ code: r.code, name: r.name, amount: r.amount }))
   const expenseRows = rows.filter(r => r.type === 'expense').map(r => ({ code: r.code, name: r.name, amount: r.amount }))
@@ -32,9 +45,19 @@ export default function IncomeStatementPage() {
   const totalExpense = expenseRows.reduce((s, r) => s + r.amount, 0)
   const netIncome = totalIncome - totalExpense
 
+  const filenameBase = `estado-resultados_${from}_${to}`
+
   return (
     <div className="p-4 md:p-6 space-y-4 max-w-3xl mx-auto">
-      <h1 className="text-xl font-bold">Estado de Resultados</h1>
+      <div className="flex items-center justify-between gap-2">
+        <h1 className="text-xl font-bold">Estado de Resultados</h1>
+        <ExportButton
+          filenameBase={filenameBase}
+          pdf={() => downloadPdf(`${filenameBase}.pdf`, React.createElement(IncomeStatementPdf, { bookName, fromDate: from, toDate: to, rows }))}
+          xlsx={() => downloadXlsx(`${filenameBase}.xlsx`, toIncomeStatementSheets(rows))}
+          csv={() => downloadCsv(`${filenameBase}.csv`, toCsv(rows.map((r) => ({ Código: r.code, Cuenta: r.name, Tipo: r.type, Monto: r.amount }))))}
+        />
+      </div>
 
       <DateRangePicker from={from} to={to} onChange={(f, t) => { setFrom(f); setTo(t) }} />
 
