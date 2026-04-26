@@ -13,6 +13,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { InstallPrompt } from '@/components/InstallPrompt';
+import { UpdateToast } from '@/components/UpdateToast';
 
 const navItems = [
   { to: '/', label: 'Inicio', icon: Home, end: true },
@@ -184,6 +186,9 @@ export default function AppLayout() {
           </NavLink>
         ))}
       </nav>
+
+      <InstallPrompt />
+      <UpdateToast />
     </div>
   );
 }
