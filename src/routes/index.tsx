@@ -14,6 +14,10 @@ import AcceptInvitationPage from '@/pages/books/AcceptInvitationPage';
 
 import AccountsPage from '@/pages/accounts/AccountsPage';
 
+import JournalPage from '@/pages/journal/JournalPage';
+import NewEntryPage from '@/pages/journal/NewEntryPage';
+import EditEntryPage from '@/pages/journal/EditEntryPage';
+
 export function AppRoutes() {
   return (
     <Routes>
@@ -31,6 +35,9 @@ export function AppRoutes() {
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/accounts" element={<AccountsPage />} />
+          <Route path="/journal" element={<JournalPage />} />
+          <Route path="/journal/new" element={<NewEntryPage />} />
+          <Route path="/journal/:id/edit" element={<EditEntryPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/books/:id/settings" element={<BookSettingsPage />} />
         </Route>

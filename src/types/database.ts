@@ -883,6 +883,18 @@ export type Database = {
         Args: { p_base_currency: string; p_name: string }
         Returns: string
       }
+      create_journal_entry: {
+        Args: {
+          p_book_id: string
+          p_currency_code: string
+          p_description: string
+          p_entry_date: string
+          p_exchange_rate: number
+          p_lines: Json
+          p_reference: string
+        }
+        Returns: string
+      }
       is_book_member: {
         Args: {
           p_book_id: string
@@ -891,6 +903,18 @@ export type Database = {
         Returns: boolean
       }
       seed_default_accounts: { Args: { p_book_id: string }; Returns: undefined }
+      update_journal_entry: {
+        Args: {
+          p_currency_code: string
+          p_description: string
+          p_entry_date: string
+          p_entry_id: string
+          p_exchange_rate: number
+          p_lines: Json
+          p_reference: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       account_type: "asset" | "liability" | "equity" | "income" | "expense"
