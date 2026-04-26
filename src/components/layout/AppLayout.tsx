@@ -155,18 +155,19 @@ export default function AppLayout() {
       </aside>
 
       {/* Mobile header */}
-      <header className="md:hidden flex items-center justify-between border-b px-3 py-2 bg-background sticky top-0 z-10">
+      <header className="md:hidden flex items-center justify-between border-b px-3 bg-background sticky top-0 z-10" style={{ paddingTop: 'max(0.5rem, env(safe-area-inset-top))', paddingBottom: '0.5rem' }}>
         <span className="font-bold text-sm">Libreo</span>
         <BookSelector />
       </header>
 
       {/* Main content */}
-      <main className="flex-1 pb-16 md:pb-0 overflow-auto">
+      {/* pb compensa la nav fija + safe-area-inset-bottom via CSS var definida en index.css */}
+      <main className="flex-1 md:pb-0 overflow-auto" style={{ paddingBottom: 'calc(4rem + env(safe-area-inset-bottom))' }}>
         <Outlet />
       </main>
 
       {/* Bottom nav — mobile */}
-      <nav className="fixed bottom-0 left-0 right-0 md:hidden border-t bg-background flex">
+      <nav className="fixed bottom-0 left-0 right-0 md:hidden border-t bg-background flex" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         {navItems.map(({ to, label, icon: Icon, end }) => (
           <NavLink
             key={to}
