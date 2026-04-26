@@ -1,4 +1,4 @@
-# Libro Diario — Plan de implementación
+# Libreo — Plan de implementación
 
 ## Contexto
 

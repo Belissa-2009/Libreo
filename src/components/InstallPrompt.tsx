@@ -46,7 +46,7 @@ export function InstallPrompt() {
       <div className="rounded-lg border bg-background shadow-lg p-4 flex items-start gap-3">
         <Download className="h-5 w-5 mt-0.5 shrink-0 text-primary" />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium">Instalar Libro Diario</p>
+          <p className="text-sm font-medium">Instalar Libreo</p>
           <p className="text-xs text-muted-foreground mt-0.5">
             Instala la app para acceso rápido sin navegador.
           </p>

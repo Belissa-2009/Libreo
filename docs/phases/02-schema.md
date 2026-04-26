@@ -233,7 +233,7 @@ export default function App() {
   useEffect(() => {
     supabase.from('currencies').select('*').then(r => console.log('currencies', r));
   }, []);
-  return <h1>Libro Diario</h1>;
+  return <h1>Libreo</h1>;
 }
 ```
 

@@ -1,4 +1,4 @@
-# CLAUDE.md — Convenciones del proyecto Libro Diario
+# CLAUDE.md — Convenciones del proyecto Libreo
 
 Este archivo es la guía obligatoria para cualquier modelo (Sonnet u otro) que ejecute el plan de implementación. **Léelo antes de empezar cualquier fase.**
 

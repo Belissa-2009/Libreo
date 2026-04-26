@@ -1,4 +1,4 @@
-# Libro Diario
+# Libreo
 
 Aplicación contable personal y compartida con partida doble. Desarrollada con React 19, TypeScript, TailwindCSS v4, shadcn/ui y Supabase.
 

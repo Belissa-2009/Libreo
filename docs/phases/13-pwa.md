@@ -28,8 +28,8 @@ Actualiza `vite.config.ts`, opción `manifest`:
 ```ts
 manifest: {
   id: '/',
-  name: 'Libro Diario',
-  short_name: 'Libro Diario',
+  name: 'Libreo',
+  short_name: 'Libreo',
   description: 'Aplicación contable personal y compartida con partida doble.',
   lang: 'es',
   dir: 'ltr',
@@ -64,7 +64,7 @@ Actualiza `index.html`:
   <meta name="description" content="Aplicación contable personal y compartida" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <title>Libro Diario</title>
+  <title>Libreo</title>
 </head>
 ```
 
@@ -128,7 +128,7 @@ iOS Safari es quisquilloso:
   ```html
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Libro Diario" />
+  <meta name="apple-mobile-web-app-title" content="Libreo" />
   ```
 - Splash screens: opcionales pero recomendadas para iOS. Generar con https://progressier.com/pwa-icons-and-ios-splash-screen-generator y referenciar con `<link rel="apple-touch-startup-image" ... media="...">`.
 - Safe area: el layout debe respetar `env(safe-area-inset-*)`. Tailwind v4 lo soporta vía `pt-safe`, `pb-safe`. Configurar en `src/index.css`:

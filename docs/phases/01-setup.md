@@ -22,7 +22,7 @@ npm install
 ```
 
 ### 2. Limpiar archivos demo
-Borra el contenido de `src/App.tsx`, `src/App.css`, `src/index.css`, y deja un `App.tsx` mínimo que renderice `<h1>Libro Diario</h1>`.
+Borra el contenido de `src/App.tsx`, `src/App.css`, `src/index.css`, y deja un `App.tsx` mínimo que renderice `<h1>Libreo</h1>`.
 
 ### 3. Configurar TypeScript con path alias
 
@@ -78,8 +78,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Libro Diario',
-        short_name: 'Libro Diario',
+        name: 'Libreo',
+        short_name: 'Libreo',
         description: 'Aplicación contable personal y compartida',
         theme_color: '#0f172a',
         background_color: '#ffffff',

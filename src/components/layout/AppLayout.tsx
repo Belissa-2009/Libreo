@@ -80,7 +80,7 @@ export default function AppLayout() {
       {/* Sidebar — desktop */}
       <aside className="hidden md:flex md:w-56 md:flex-col md:border-r bg-background p-4 gap-1">
         <div className="mb-3">
-          <p className="text-lg font-bold px-2 mb-2">Libro Diario</p>
+          <p className="text-lg font-bold px-2 mb-2">Libreo</p>
           <BookSelector />
         </div>
         {navItems.map(({ to, label, icon: Icon, end }) => (
@@ -156,7 +156,7 @@ export default function AppLayout() {
 
       {/* Mobile header */}
       <header className="md:hidden flex items-center justify-between border-b px-3 py-2 bg-background sticky top-0 z-10">
-        <span className="font-bold text-sm">Libro Diario</span>
+        <span className="font-bold text-sm">Libreo</span>
         <BookSelector />
       </header>
 

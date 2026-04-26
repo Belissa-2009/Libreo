@@ -1,4 +1,4 @@
-# Manual de Usuario — Libro Diario
+# Manual de Usuario — Libreo
 
 > Versión actual del proyecto. Última actualización: abril 2026.
 
@@ -39,13 +39,16 @@
 9. [Monedas y tipos de cambio](#9-monedas-y-tipos-de-cambio)
 10. [Instalación como aplicación (PWA)](#10-instalación-como-aplicación-pwa)
 11. [Roles y permisos](#11-roles-y-permisos)
-12. [Preguntas frecuentes](#12-preguntas-frecuentes)
+12. [Perfil y preferencias del sistema](#12-perfil-y-preferencias-del-sistema)
+    - 12.1 [Ver y editar el perfil](#121-ver-y-editar-el-perfil)
+    - 12.2 [Configurar la divisa por defecto](#122-configurar-la-divisa-por-defecto)
+13. [Preguntas frecuentes](#13-preguntas-frecuentes)
 
 ---
 
 ## 1. Introducción
 
-**Libro Diario** es una aplicación contable de partida doble diseñada para pequeños negocios y particulares. Permite registrar transacciones financieras, gestionar múltiples libros contables con distintos colaboradores, generar reportes financieros estándar y administrar préstamos con su tabla de amortización.
+**Libreo** es una aplicación contable de partida doble diseñada para pequeños negocios y particulares. Permite registrar transacciones financieras, gestionar múltiples libros contables con distintos colaboradores, generar reportes financieros estándar y administrar préstamos con su tabla de amortización.
 
 Funciona completamente en el navegador y puede instalarse como aplicación en tu teléfono o computadora (PWA), sin necesidad de descargar nada desde una tienda.
 
@@ -279,6 +282,7 @@ El módulo de préstamos permite registrar y dar seguimiento a obligaciones fina
    - **Tasa anual (%)**: tasa de interés anual.
    - **Plazo (meses)**: duración del préstamo.
    - **Fecha de inicio**: fecha del primer desembolso.
+   - **Divisa**: moneda en la que se pactó el préstamo (por defecto usa tu divisa configurada en el perfil).
    - **Cuenta de interés**: cuenta contable donde se registran los intereses.
    - **Cuenta de caja/banco**: cuenta de donde salen o entran los pagos.
    - **Notas** (opcional).
@@ -343,7 +347,7 @@ La aplicación puede instalarse en tu dispositivo para usarla sin necesidad de a
 ### En escritorio (Chrome / Edge)
 
 1. Abre la aplicación en el navegador.
-2. Aparecerá un aviso en la parte inferior de la pantalla: **"Instalar Libro Diario"**. Haz clic en **"Instalar"**.
+2. Aparecerá un aviso en la parte inferior de la pantalla: **"Instalar Libreo"**. Haz clic en **"Instalar"**.
 3. También puedes instalarlo desde el ícono de instalación en la barra de direcciones del navegador.
 
 ### En móvil (Android)
@@ -381,7 +385,37 @@ Cada miembro de un libro tiene asignado uno de tres roles:
 
 ---
 
-## 12. Preguntas frecuentes
+## 12. Perfil y preferencias del sistema
+
+Desde la sección de perfil puedes actualizar tus datos personales y configurar el comportamiento del sistema a tu gusto.
+
+**Para acceder:** haz clic en el ícono de usuario (**Perfil**) en el menú lateral o en la barra de navegación inferior (en móvil).
+
+### 12.1 Ver y editar el perfil
+
+El segmento **Perfil** muestra:
+
+- **Correo electrónico**: el correo con el que creaste tu cuenta (solo lectura).
+- **Nombre completo**: editable. Ingresa el nuevo nombre y haz clic en **"Guardar cambios"**.
+- **Cerrar sesión**: botón para terminar la sesión actual.
+
+### 12.2 Configurar la divisa por defecto
+
+El segmento **Configuración** permite definir qué divisa se pre-selecciona en todos los formularios del sistema (asientos, préstamos, tipos de cambio).
+
+1. En el selector **"Divisa por defecto"**, elige la moneda que uses con mayor frecuencia:
+   - **DOP** — Peso dominicano *(selección predeterminada para cuentas nuevas)*
+   - **USD** — Dólar estadounidense
+2. Haz clic en **"Guardar preferencias"**.
+3. Aparecerá un mensaje de confirmación: *"Preferencias guardadas"*.
+
+A partir de ese momento, cualquier formulario con campo de divisa abrirá con la moneda que configuraste. Siempre puedes cambiarla manualmente dentro de cada formulario sin que eso modifique tu preferencia global.
+
+> **Nota:** cambiar la divisa por defecto no afecta los registros ya creados, solo el valor inicial de los formularios futuros.
+
+---
+
+## 13. Preguntas frecuentes
 
 **¿Puedo tener varios libros para distintas empresas?**
 Sí. Puedes crear tantos libros como necesites. Cada libro es completamente independiente.
@@ -405,4 +439,7 @@ Sí. Cada reporte (libro diario, balance de comprobación, libro mayor, estado d
 Se usa el **método francés** (cuota fija): cada cuota tiene el mismo monto total, pero la proporción entre capital e interés varía — al inicio se paga más interés y con el tiempo se paga más capital.
 
 **¿Puedo cambiar el correo electrónico de mi cuenta?**
-Accede al menú de tu perfil (ícono de usuario en la esquina superior) y actualiza tu correo desde la sección **"Mi perfil"**.
+Actualmente el correo se gestiona directamente en Supabase Auth. Desde la sección **Perfil** puedes ver tu correo registrado, pero para cambiarlo debes contactar al administrador del sistema.
+
+**¿Puedo tener una divisa por defecto distinta al peso dominicano?**
+Sí. Ve a **Perfil → Configuración**, elige la divisa que prefieras y guarda. Esa divisa se pre-seleccionará en todos los formularios. Consulta la [sección 12.2](#122-configurar-la-divisa-por-defecto) para más detalles.

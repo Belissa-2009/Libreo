@@ -1,4 +1,4 @@
-00# Especificaciones del sistema — Libro Diario
+00# Especificaciones del sistema — Libreo
 
 Este directorio contiene las **historias de usuario (US)** y **criterios de aceptación** de cada dominio funcional del sistema. Son la fuente de verdad para saber qué hace la aplicación y qué debe cumplir cualquier nueva iteración.
 

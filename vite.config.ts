@@ -12,8 +12,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: {
         id: '/',
-        name: 'Libro Diario',
-        short_name: 'Libro Diario',
+        name: 'Libreo',
+        short_name: 'Libreo',
         description: 'Aplicación contable personal y compartida con partida doble.',
         lang: 'es',
         dir: 'ltr',
