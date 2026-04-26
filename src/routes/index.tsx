@@ -18,6 +18,11 @@ import JournalPage from '@/pages/journal/JournalPage';
 import NewEntryPage from '@/pages/journal/NewEntryPage';
 import EditEntryPage from '@/pages/journal/EditEntryPage';
 
+import LedgerPage from '@/pages/reports/LedgerPage';
+import TrialBalancePage from '@/pages/reports/TrialBalancePage';
+import IncomeStatementPage from '@/pages/reports/IncomeStatementPage';
+import BalanceSheetPage from '@/pages/reports/BalanceSheetPage';
+
 export function AppRoutes() {
   return (
     <Routes>
@@ -38,6 +43,10 @@ export function AppRoutes() {
           <Route path="/journal" element={<JournalPage />} />
           <Route path="/journal/new" element={<NewEntryPage />} />
           <Route path="/journal/:id/edit" element={<EditEntryPage />} />
+          <Route path="/reports/ledger" element={<LedgerPage />} />
+          <Route path="/reports/trial-balance" element={<TrialBalancePage />} />
+          <Route path="/reports/income-statement" element={<IncomeStatementPage />} />
+          <Route path="/reports/balance-sheet" element={<BalanceSheetPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/books/:id/settings" element={<BookSettingsPage />} />
         </Route>

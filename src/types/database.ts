@@ -902,6 +902,63 @@ export type Database = {
         }
         Returns: boolean
       }
+      report_balance_sheet: {
+        Args: { p_book_id: string; p_to: string }
+        Returns: {
+          account_id: string
+          balance: number
+          code: string
+          name: string
+          type: Database["public"]["Enums"]["account_type"]
+        }[]
+      }
+      report_income_statement: {
+        Args: { p_book_id: string; p_from: string; p_to: string }
+        Returns: {
+          account_id: string
+          amount: number
+          code: string
+          name: string
+          type: Database["public"]["Enums"]["account_type"]
+        }[]
+      }
+      report_ledger: {
+        Args: {
+          p_account_id: string
+          p_book_id: string
+          p_from: string
+          p_to: string
+        }
+        Returns: {
+          balance: number
+          credit: number
+          debit: number
+          description: string
+          entry_date: string
+          line_id: string
+          reference: string
+        }[]
+      }
+      report_monthly_summary: {
+        Args: { p_book_id: string; p_months?: number }
+        Returns: {
+          expense: number
+          income: number
+          month: string
+        }[]
+      }
+      report_trial_balance: {
+        Args: { p_book_id: string; p_to: string }
+        Returns: {
+          account_id: string
+          balance: number
+          code: string
+          name: string
+          total_credit: number
+          total_debit: number
+          type: Database["public"]["Enums"]["account_type"]
+        }[]
+      }
       seed_default_accounts: { Args: { p_book_id: string }; Returns: undefined }
       update_journal_entry: {
         Args: {

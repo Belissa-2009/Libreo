@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from 'react-router';
-import { Home, User, BookOpen, ChevronDown, BookMarked, FileText } from 'lucide-react';
+import { Home, User, BookOpen, ChevronDown, BookMarked, FileText, BarChart2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { useActiveBook } from '@/features/books/useActiveBook';
@@ -18,6 +18,7 @@ const navItems = [
   { to: '/', label: 'Inicio', icon: Home, end: true },
   { to: '/journal', label: 'Diario', icon: FileText, end: false },
   { to: '/accounts', label: 'Cuentas', icon: BookMarked, end: false },
+  { to: '/reports/ledger', label: 'Reportes', icon: BarChart2, end: false },
   { to: '/profile', label: 'Perfil', icon: User, end: false },
 ];
 
@@ -98,6 +99,30 @@ export default function AppLayout() {
             {label}
           </NavLink>
         ))}
+        <div className="pt-1 pb-0.5">
+          <p className="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Reportes</p>
+          {[
+            { to: '/reports/ledger', label: 'Mayor' },
+            { to: '/reports/trial-balance', label: 'Bal. Comprobación' },
+            { to: '/reports/income-statement', label: 'Estado de Resultados' },
+            { to: '/reports/balance-sheet', label: 'Balance General' },
+          ].map(({ to, label }) => (
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) =>
+                cn(
+                  'flex items-center gap-2 px-2 py-1.5 rounded-md text-sm transition-colors',
+                  isActive
+                    ? 'bg-accent text-accent-foreground font-medium'
+                    : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
+                )
+              }
+            >
+              {label}
+            </NavLink>
+          ))}
+        </div>
       </aside>
 
       {/* Mobile header */}
