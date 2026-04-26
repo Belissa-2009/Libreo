@@ -2,10 +2,20 @@ import { useState } from 'react'
 import { useActiveBook } from '@/features/books/useActiveBook'
 import { useTrialBalance } from '@/features/reports/hooks/useReports'
 import { DateRangePicker } from '@/features/reports/components/DateRangePicker'
+import { ExportButton } from '@/features/reports/components/ExportButton'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { TrialBalanceRow } from '@/features/reports/api'
 import type { AccountType } from '@/features/accounts/api'
+import { downloadPdf } from '@/lib/exporters/pdf'
+import { downloadXlsx } from '@/lib/exporters/xlsx'
+import { toCsv, downloadCsv } from '@/lib/exporters/csv'
+import { TrialBalancePdf } from '@/features/reports/exporters/TrialBalancePdf'
+import { toTrialBalanceSheet } from '@/features/reports/exporters/sheets'
+import { useQuery } from '@tanstack/react-query'
+import { listBooks } from '@/features/books/api'
+import { useAuth } from '@/features/auth/AuthProvider'
+import React from 'react'
 
 const TYPE_LABELS: Record<AccountType, string> = {
   asset: 'Activos',
@@ -33,10 +43,13 @@ function groupByType(rows: TrialBalanceRow[]) {
 }
 
 export default function TrialBalancePage() {
+  const { user } = useAuth()
   const { activeBookId } = useActiveBook()
   const [to, setTo] = useState(today())
 
   const { data: rows = [], isLoading, error } = useTrialBalance(activeBookId ?? null, to)
+  const { data: books = [] } = useQuery({ queryKey: ['books', user?.id], queryFn: listBooks, enabled: !!user })
+  const bookName = books.find((b) => b.id === activeBookId)?.name ?? 'Libro'
 
   const totalDebit = rows.reduce((s, r) => s + r.total_debit, 0)
   const totalCredit = rows.reduce((s, r) => s + r.total_credit, 0)
@@ -44,9 +57,19 @@ export default function TrialBalancePage() {
 
   const groups = groupByType(rows)
 
+  const filenameBase = `balance-comprobacion_al-${to}`
+
   return (
     <div className="p-4 md:p-6 space-y-4 max-w-5xl mx-auto">
-      <h1 className="text-xl font-bold">Balance de Comprobación</h1>
+      <div className="flex items-center justify-between gap-2">
+        <h1 className="text-xl font-bold">Balance de Comprobación</h1>
+        <ExportButton
+          filenameBase={filenameBase}
+          pdf={() => downloadPdf(`${filenameBase}.pdf`, React.createElement(TrialBalancePdf, { bookName, toDate: to, rows }))}
+          xlsx={() => downloadXlsx(`${filenameBase}.xlsx`, [toTrialBalanceSheet(rows)])}
+          csv={() => downloadCsv(`${filenameBase}.csv`, toCsv(rows.map((r) => ({ Código: r.code, Cuenta: r.name, Debe: r.total_debit, Haber: r.total_credit, Saldo: r.balance }))))}
+        />
+      </div>
 
       <DateRangePicker from="" to={to} onChange={(_, t) => setTo(t)} single />
 

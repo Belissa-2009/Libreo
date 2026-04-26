@@ -1,10 +1,20 @@
 import { useState } from 'react'
+import React from 'react'
 import { useActiveBook } from '@/features/books/useActiveBook'
 import { useBalanceSheet, useIncomeStatement } from '@/features/reports/hooks/useReports'
 import { DateRangePicker } from '@/features/reports/components/DateRangePicker'
 import { AccountTypeSection } from '@/features/reports/components/AccountTypeSection'
+import { ExportButton } from '@/features/reports/components/ExportButton'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
+import { downloadPdf } from '@/lib/exporters/pdf'
+import { downloadXlsx } from '@/lib/exporters/xlsx'
+import { toCsv, downloadCsv } from '@/lib/exporters/csv'
+import { BalanceSheetPdf } from '@/features/reports/exporters/BalanceSheetPdf'
+import { toBalanceSheetSheet } from '@/features/reports/exporters/sheets'
+import { useQuery } from '@tanstack/react-query'
+import { listBooks } from '@/features/books/api'
+import { useAuth } from '@/features/auth/AuthProvider'
 
 function today() {
   return new Date().toISOString().slice(0, 10)
@@ -15,6 +25,7 @@ function fmt(n: number) {
 }
 
 export default function BalanceSheetPage() {
+  const { user } = useAuth()
   const { activeBookId } = useActiveBook()
   const [to, setTo] = useState(today())
 
@@ -22,6 +33,8 @@ export default function BalanceSheetPage() {
 
   const { data: bsRows = [], isLoading, error } = useBalanceSheet(activeBookId ?? null, to)
   const { data: isRows = [] } = useIncomeStatement(activeBookId ?? null, yearStart, to)
+  const { data: books = [] } = useQuery({ queryKey: ['books', user?.id], queryFn: listBooks, enabled: !!user })
+  const bookName = books.find((b) => b.id === activeBookId)?.name ?? 'Libro'
 
   const assetRows = bsRows.filter(r => r.type === 'asset').map(r => ({ code: r.code, name: r.name, amount: r.balance }))
   const liabilityRows = bsRows.filter(r => r.type === 'liability').map(r => ({ code: r.code, name: r.name, amount: r.balance }))
@@ -35,10 +48,19 @@ export default function BalanceSheetPage() {
   const totalLiabilities = liabilityRows.reduce((s, r) => s + r.amount, 0)
   const totalEquity = equityRows.reduce((s, r) => s + r.amount, 0) + netIncome
   const balanced = Math.abs(totalAssets - (totalLiabilities + totalEquity)) < 0.01
+  const filenameBase = `balance-general_al-${to}`
 
   return (
     <div className="p-4 md:p-6 space-y-4 max-w-5xl mx-auto">
-      <h1 className="text-xl font-bold">Balance General</h1>
+      <div className="flex items-center justify-between gap-2">
+        <h1 className="text-xl font-bold">Balance General</h1>
+        <ExportButton
+          filenameBase={filenameBase}
+          pdf={() => downloadPdf(`${filenameBase}.pdf`, React.createElement(BalanceSheetPdf, { bookName, toDate: to, rows: bsRows }))}
+          xlsx={() => downloadXlsx(`${filenameBase}.xlsx`, [toBalanceSheetSheet(bsRows)])}
+          csv={() => downloadCsv(`${filenameBase}.csv`, toCsv(bsRows.map((r) => ({ Código: r.code, Cuenta: r.name, Tipo: r.type, Saldo: r.balance }))))}
+        />
+      </div>
 
       <DateRangePicker from="" to={to} onChange={(_, t) => setTo(t)} single />
 

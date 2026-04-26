@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import React from 'react'
 import { useActiveBook } from '@/features/books/useActiveBook'
 import { useAccounts } from '@/features/accounts/hooks/useAccounts'
 import { useLedger } from '@/features/reports/hooks/useReports'
 import { DateRangePicker } from '@/features/reports/components/DateRangePicker'
+import { ExportButton } from '@/features/reports/components/ExportButton'
 import {
   Select,
   SelectContent,
@@ -13,6 +15,14 @@ import {
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
+import { downloadPdf } from '@/lib/exporters/pdf'
+import { downloadXlsx } from '@/lib/exporters/xlsx'
+import { toCsv, downloadCsv } from '@/lib/exporters/csv'
+import { LedgerPdf } from '@/features/reports/exporters/LedgerPdf'
+import { toLedgerSheet } from '@/features/reports/exporters/sheets'
+import { useQuery } from '@tanstack/react-query'
+import { listBooks } from '@/features/books/api'
+import { useAuth } from '@/features/auth/AuthProvider'
 
 function today() {
   return new Date().toISOString().slice(0, 10)
@@ -27,20 +37,34 @@ function fmt(n: number) {
 }
 
 export default function LedgerPage() {
+  const { user } = useAuth()
   const { activeBookId } = useActiveBook()
   const [accountId, setAccountId] = useState<string>('')
   const [from, setFrom] = useState(firstOfMonth())
   const [to, setTo] = useState(today())
 
   const { data: accounts = [] } = useAccounts(activeBookId ?? null)
+  const { data: books = [] } = useQuery({ queryKey: ['books', user?.id], queryFn: listBooks, enabled: !!user })
+  const bookName = books.find((b) => b.id === activeBookId)?.name ?? 'Libro'
   const { data: rows = [], isLoading, error } = useLedger(activeBookId ?? null, accountId || null, from, to)
 
   const totalDebit = rows.reduce((s, r) => s + r.debit, 0)
   const totalCredit = rows.reduce((s, r) => s + r.credit, 0)
 
+  const selectedAccount = accounts.find((a) => a.id === accountId)
+  const filenameBase = `mayor_${selectedAccount?.code ?? 'cuenta'}_${from}_${to}`
+
   return (
     <div className="p-4 md:p-6 space-y-4 max-w-5xl mx-auto">
-      <h1 className="text-xl font-bold">Libro Mayor</h1>
+      <div className="flex items-center justify-between gap-2">
+        <h1 className="text-xl font-bold">Libro Mayor</h1>
+        <ExportButton
+          filenameBase={filenameBase}
+          pdf={() => downloadPdf(`${filenameBase}.pdf`, React.createElement(LedgerPdf, { bookName, accountName: selectedAccount?.name ?? 'Cuenta', fromDate: from, toDate: to, rows }))}
+          xlsx={() => downloadXlsx(`${filenameBase}.xlsx`, [toLedgerSheet(rows, selectedAccount?.name ?? 'Mayor')])}
+          csv={() => downloadCsv(`${filenameBase}.csv`, toCsv(rows.map((r) => ({ Fecha: r.entry_date, Descripción: r.description, Referencia: r.reference ?? '', Debe: r.debit, Haber: r.credit, Saldo: r.balance }))))}
+        />
+      </div>
 
       <div className="flex flex-wrap gap-4 items-end">
         <div className="flex flex-col gap-1">
