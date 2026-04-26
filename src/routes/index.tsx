@@ -22,6 +22,10 @@ import LedgerPage from '@/pages/reports/LedgerPage';
 import TrialBalancePage from '@/pages/reports/TrialBalancePage';
 import IncomeStatementPage from '@/pages/reports/IncomeStatementPage';
 import BalanceSheetPage from '@/pages/reports/BalanceSheetPage';import ExchangeRatesPage from '@/pages/currencies/ExchangeRatesPage'
+import LoansPage from '@/pages/loans/LoansPage'
+import NewLoanPage from '@/pages/loans/NewLoanPage'
+import LoanDetailPage from '@/pages/loans/LoanDetailPage'
+
 export function AppRoutes() {
   return (
     <Routes>
@@ -47,6 +51,9 @@ export function AppRoutes() {
           <Route path="/reports/income-statement" element={<IncomeStatementPage />} />
           <Route path="/reports/balance-sheet" element={<BalanceSheetPage />} />
           <Route path="/currencies" element={<ExchangeRatesPage />} />
+          <Route path="/loans" element={<LoansPage />} />
+          <Route path="/loans/new" element={<NewLoanPage />} />
+          <Route path="/loans/:id" element={<LoanDetailPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/books/:id/settings" element={<BookSettingsPage />} />
         </Route>

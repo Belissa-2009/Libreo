@@ -879,6 +879,15 @@ export type Database = {
       }
     }
     Functions: {
+      apply_extra_payment: {
+        Args: {
+          p_amount: number
+          p_loan_id: string
+          p_payment_date: string
+          p_strategy: Database["public"]["Enums"]["payment_strategy"]
+        }
+        Returns: string
+      }
       create_book: {
         Args: { p_base_currency: string; p_name: string }
         Returns: string
@@ -895,6 +904,18 @@ export type Database = {
         }
         Returns: string
       }
+      french_installment: {
+        Args: {
+          p_annual_rate: number
+          p_principal: number
+          p_term_months: number
+        }
+        Returns: number
+      }
+      generate_loan_schedule: {
+        Args: { p_loan_id: string }
+        Returns: undefined
+      }
       get_exchange_rate: {
         Args: {
           p_book_id: string
@@ -910,6 +931,22 @@ export type Database = {
           required_roles?: Database["public"]["Enums"]["member_role"][]
         }
         Returns: boolean
+      }
+      pay_loan_installment: {
+        Args: { p_installment_id: string; p_payment_date: string }
+        Returns: string
+      }
+      preview_extra_payment: {
+        Args: {
+          p_amount: number
+          p_loan_id: string
+          p_strategy: Database["public"]["Enums"]["payment_strategy"]
+        }
+        Returns: {
+          new_installment: number
+          new_term: number
+          saved_installments: number
+        }[]
       }
       report_balance_sheet: {
         Args: { p_book_id: string; p_to: string }
