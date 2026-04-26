@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from 'react-router';
-import { Home, User, BookOpen, ChevronDown, BookMarked, FileText, BarChart2 } from 'lucide-react';
+import { Home, User, BookOpen, ChevronDown, BookMarked, FileText, BarChart2, CreditCard } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { useActiveBook } from '@/features/books/useActiveBook';
@@ -135,6 +135,20 @@ export default function AppLayout() {
           }
         >
           Tasas de cambio
+        </NavLink>
+        <NavLink
+          to="/loans"
+          className={({ isActive }) =>
+            cn(
+              'flex items-center gap-2 px-2 py-2 rounded-md text-sm transition-colors',
+              isActive
+                ? 'bg-accent text-accent-foreground font-medium'
+                : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
+            )
+          }
+        >
+          <CreditCard className="h-4 w-4" />
+          Préstamos
         </NavLink>
       </aside>
 
