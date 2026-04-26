@@ -890,6 +890,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      seed_default_accounts: { Args: { p_book_id: string }; Returns: undefined }
     }
     Enums: {
       account_type: "asset" | "liability" | "equity" | "income" | "expense"

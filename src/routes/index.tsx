@@ -12,6 +12,8 @@ import NewBookPage from '@/pages/books/NewBookPage';
 import BookSettingsPage from '@/pages/books/BookSettingsPage';
 import AcceptInvitationPage from '@/pages/books/AcceptInvitationPage';
 
+import AccountsPage from '@/pages/accounts/AccountsPage';
+
 export function AppRoutes() {
   return (
     <Routes>
@@ -28,6 +30,7 @@ export function AppRoutes() {
         <Route path="/books/new" element={<NewBookPage />} />
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/accounts" element={<AccountsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/books/:id/settings" element={<BookSettingsPage />} />
         </Route>

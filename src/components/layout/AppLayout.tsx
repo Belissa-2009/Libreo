@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from 'react-router';
-import { Home, User, BookOpen, ChevronDown } from 'lucide-react';
+import { Home, User, BookOpen, ChevronDown, BookMarked } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { useActiveBook } from '@/features/books/useActiveBook';
@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 
 const navItems = [
   { to: '/', label: 'Inicio', icon: Home, end: true },
+  { to: '/accounts', label: 'Cuentas', icon: BookMarked, end: false },
   { to: '/profile', label: 'Perfil', icon: User, end: false },
 ];
 
