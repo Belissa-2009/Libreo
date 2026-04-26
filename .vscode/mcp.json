@@ -2,7 +2,13 @@
   "servers": {
     "supabase": {
       "type": "http",
-      "url": "http://localhost:54321/mcp?read_only=true"
+      "url": "https://mcp.supabase.com/mcp?project_ref=acwepefsmcreootmtrde"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
     }
   }
 } 

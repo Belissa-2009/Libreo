@@ -8,6 +8,15 @@ Aplicación contable PWA (web + móvil instalable) multi-usuario para llevar reg
 
 El plan completo está en [PLAN.md](PLAN.md). La arquitectura (schema, RLS, manejo de dinero) está en [docs/architecture.md](docs/architecture.md). Cada fase de implementación está en [docs/phases/](docs/phases/) numerada del 01 al 14.
 
+## Especificaciones del sistema (fuente de verdad funcional)
+
+Las historias de usuario y criterios de aceptación de cada dominio implementado están en [`docs/specs/`](docs/specs/). **Léelas antes de agregar o modificar cualquier funcionalidad existente.**
+
+- [`docs/specs/README.md`](docs/specs/README.md) — índice completo con todos los dominios.
+- Cada archivo `US-NN-*.md` contiene: contexto, historias de usuario, criterios de aceptación, reglas de negocio y notas técnicas.
+
+Al agregar una feature nueva: extiende la US del dominio correspondiente o crea una nueva siguiendo la convención del README de specs.
+
 ## Cómo trabajar
 
 1. **Lee la fase actual completa antes de empezar.** Cada fase tiene: Goal, Prerequisites, Steps, Files, Verification, Definition of Done.
@@ -117,6 +126,7 @@ Si el MCP devuelve resultados que parecen "viejos" comparados con cambios recié
 ## Cosas que SÍ debes hacer cuando dudes
 
 - Lee [docs/architecture.md](docs/architecture.md) — la mayoría de decisiones técnicas están ahí.
+- Lee [docs/specs/](docs/specs/) — las especificaciones funcionales por dominio.
 - Lee la fase anterior — muchas convenciones se establecen una vez.
 - Ejecuta el dev server (`npm run dev`) y prueba el flujo end-to-end antes de declarar una fase terminada.
 - Para errores de Postgres / RLS, revisa los logs en el dashboard de Supabase.
