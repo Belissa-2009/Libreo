@@ -59,6 +59,7 @@ export default function LoanDetailPage() {
             <Badge variant={loan.type === 'received' ? 'destructive' : 'default'}>
               {loan.type === 'received' ? 'Recibido' : 'Otorgado'}
             </Badge>
+            <Badge variant="outline">{loan.currency_code}</Badge>
           </div>
           <p className="text-sm text-muted-foreground">
             {loan.term_months} meses · {Number(loan.annual_rate)}% anual · desde {loan.start_date}

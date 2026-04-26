@@ -25,6 +25,7 @@ El módulo de préstamos permite registrar obligaciones financieras (recibidas u
 - [ ] El formulario solicita:
   - Tipo: `Recibido` (el negocio debe dinero) u `Otorgado` (el negocio prestó dinero).
   - Contraparte: nombre del banco, persona o entidad.
+  - Divisa (`currency_code`): moneda del préstamo (DOP o USD); requerida al crear el préstamo.
   - Capital: monto principal del préstamo (número positivo).
   - Tasa anual (%): tasa de interés anual.
   - Plazo (meses): duración total.
@@ -114,4 +115,7 @@ El módulo de préstamos permite registrar obligaciones financieras (recibidas u
 - Funciones SQL: `french_installment`, `generate_loan_schedule`, `preview_extra_payment`, `pay_loan_installment`, `apply_extra_payment`.
 - Tablas: `loans`, `loan_schedule`, `loan_payments`.
 - UI: `LoansPage`, `NewLoanPage`, `LoanDetailPage`, componentes `LoanCard`, `ScheduleTable`, `ExtraPaymentDialog`.
-- Los préstamos tienen `currency_code` — pueden estar en moneda distinta a la base.
+- **Divisas:**
+  - `loans.currency_code`: TEXT NOT NULL DEFAULT 'DOP'. Indica la moneda en que está denominado el préstamo. Requerida al crear.
+  - `loan_schedule.currency_code`: TEXT NULLABLE (FK → `currencies.code`). Permite registrar la moneda real de cada cuota del calendario; NULL indica que hereda la del préstamo.
+  - `loan_payments.currency_code`: TEXT NULLABLE (FK → `currencies.code`). Permite registrar la moneda real del pago efectuado; NULL indica que hereda la del préstamo.

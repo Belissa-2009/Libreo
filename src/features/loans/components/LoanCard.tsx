@@ -28,9 +28,12 @@ export function LoanCard({ loan, schedule = [], onClick }: LoanCardProps) {
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between gap-2">
           <CardTitle className="text-base truncate">{loan.counterparty}</CardTitle>
-          <Badge variant={loan.type === 'received' ? 'destructive' : 'default'}>
-            {loan.type === 'received' ? 'Recibido' : 'Otorgado'}
-          </Badge>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <Badge variant="outline" className="text-xs">{loan.currency_code}</Badge>
+            <Badge variant={loan.type === 'received' ? 'destructive' : 'default'}>
+              {loan.type === 'received' ? 'Recibido' : 'Otorgado'}
+            </Badge>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-2 text-sm">

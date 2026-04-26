@@ -383,6 +383,7 @@ export type Database = {
           applied_to_installment_id: string | null
           created_at: string
           created_by: string
+          currency_code: string | null
           id: string
           journal_entry_id: string | null
           loan_id: string
@@ -396,6 +397,7 @@ export type Database = {
           applied_to_installment_id?: string | null
           created_at?: string
           created_by: string
+          currency_code?: string | null
           id?: string
           journal_entry_id?: string | null
           loan_id: string
@@ -409,6 +411,7 @@ export type Database = {
           applied_to_installment_id?: string | null
           created_at?: string
           created_by?: string
+          currency_code?: string | null
           id?: string
           journal_entry_id?: string | null
           loan_id?: string
@@ -433,6 +436,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "loan_payments_currency_code_fkey"
+            columns: ["currency_code"]
+            isOneToOne: false
+            referencedRelation: "currencies"
+            referencedColumns: ["code"]
+          },
+          {
             foreignKeyName: "loan_payments_journal_entry_id_fkey"
             columns: ["journal_entry_id"]
             isOneToOne: false
@@ -451,6 +461,7 @@ export type Database = {
       loan_schedule: {
         Row: {
           balance_after: number
+          currency_code: string | null
           due_date: string
           id: string
           installment_number: number
@@ -463,6 +474,7 @@ export type Database = {
         }
         Insert: {
           balance_after: number
+          currency_code?: string | null
           due_date: string
           id?: string
           installment_number: number
@@ -475,6 +487,7 @@ export type Database = {
         }
         Update: {
           balance_after?: number
+          currency_code?: string | null
           due_date?: string
           id?: string
           installment_number?: number
@@ -486,6 +499,13 @@ export type Database = {
           version?: number
         }
         Relationships: [
+          {
+            foreignKeyName: "loan_schedule_currency_code_fkey"
+            columns: ["currency_code"]
+            isOneToOne: false
+            referencedRelation: "currencies"
+            referencedColumns: ["code"]
+          },
           {
             foreignKeyName: "loan_schedule_journal_entry_id_fkey"
             columns: ["journal_entry_id"]
@@ -510,6 +530,7 @@ export type Database = {
           cash_account_id: string
           counterparty: string
           created_at: string
+          currency_code: string
           frequency: Database["public"]["Enums"]["loan_frequency"]
           id: string
           interest_account_id: string
@@ -528,6 +549,7 @@ export type Database = {
           cash_account_id: string
           counterparty: string
           created_at?: string
+          currency_code?: string
           frequency?: Database["public"]["Enums"]["loan_frequency"]
           id?: string
           interest_account_id: string
@@ -546,6 +568,7 @@ export type Database = {
           cash_account_id?: string
           counterparty?: string
           created_at?: string
+          currency_code?: string
           frequency?: Database["public"]["Enums"]["loan_frequency"]
           id?: string
           interest_account_id?: string
@@ -592,6 +615,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "v_trial_balance"
             referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "loans_currency_code_fkey"
+            columns: ["currency_code"]
+            isOneToOne: false
+            referencedRelation: "currencies"
+            referencedColumns: ["code"]
           },
           {
             foreignKeyName: "loans_interest_account_id_fkey"
@@ -925,6 +955,7 @@ export type Database = {
         }
         Returns: number
       }
+      get_my_book_ids: { Args: never; Returns: string[] }
       is_book_member: {
         Args: {
           p_book_id: string

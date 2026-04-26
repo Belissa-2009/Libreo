@@ -3,6 +3,7 @@ import { z } from 'zod'
 export const createLoanSchema = z.object({
   type: z.enum(['received', 'given']),
   counterparty: z.string().min(1),
+  currency_code: z.string().min(1, 'Selecciona una moneda'),
   principal: z.number().min(0.01),
   annual_rate: z.number().min(0),
   term_months: z.number().int().min(1),

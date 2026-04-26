@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router'
+import { useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
@@ -10,6 +11,7 @@ import { useActiveBook } from '@/features/books/useActiveBook'
 import { useAccounts } from '@/features/accounts/hooks/useAccounts'
 import { useCreateLoan } from '@/features/loans/hooks/useLoans'
 import { createLoanSchema, type CreateLoanInput } from '@/features/loans/schemas'
+import { supabase } from '@/lib/supabase'
 import { toast } from 'sonner'
 import { ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router'
@@ -46,6 +48,13 @@ export default function NewLoanPage() {
   const { activeBookId } = useActiveBook()
   const { data: accounts = [] } = useAccounts(activeBookId)
   const createLoan = useCreateLoan(activeBookId!)
+  const [currencies, setCurrencies] = useState<{ code: string; name: string }[]>([])
+
+  useEffect(() => {
+    supabase.from('currencies').select('code, name').order('code').then(({ data }) => {
+      if (data) setCurrencies(data)
+    })
+  }, [])
 
   const {
     register,
@@ -58,6 +67,7 @@ export default function NewLoanPage() {
     defaultValues: {
       type: 'received',
       counterparty: '',
+      currency_code: 'DOP',
       principal: 0,
       annual_rate: 0,
       term_months: 12,
@@ -125,6 +135,30 @@ export default function NewLoanPage() {
               <Label>Contraparte</Label>
               <Input placeholder="Nombre del banco o persona" {...register('counterparty')} />
               {errors.counterparty && <p className="text-xs text-destructive">{errors.counterparty.message}</p>}
+            </div>
+
+            {/* Divisa */}
+            <div className="space-y-1.5">
+              <Label>Divisa</Label>
+              <Controller
+                control={control}
+                name="currency_code"
+                render={({ field }) => (
+                  <select
+                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+                    value={field.value}
+                    onChange={field.onChange}
+                  >
+                    <option value="">Selecciona una moneda</option>
+                    {currencies.map((c) => (
+                      <option key={c.code} value={c.code}>
+                        {c.code} — {c.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              />
+              {errors.currency_code && <p className="text-xs text-destructive">{errors.currency_code.message}</p>}
             </div>
 
             {/* Capital / Tasa / Plazo */}
