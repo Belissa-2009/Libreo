@@ -5,6 +5,7 @@ import { entrySchema, type EntryInput } from '../schemas';
 import type { Account } from '@/features/accounts/api';
 import type { EntryWithLines } from '../api';
 import { calcTotals } from '../api';
+import { getRateForDate } from '@/features/currencies/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,6 +23,7 @@ interface Props {
   accounts: Account[];
   currencies: { code: string; name: string }[];
   baseCurrency: string;
+  bookId?: string;
   initial?: EntryWithLines;
   onSubmit: (data: EntryInput) => Promise<void>;
   onCancel: () => void;
@@ -35,6 +37,7 @@ export function JournalEntryForm({
   accounts,
   currencies,
   baseCurrency,
+  bookId,
   initial,
   onSubmit,
   onCancel,
@@ -90,15 +93,22 @@ export function JournalEntryForm({
   const { fields, append, remove } = useFieldArray({ control, name: 'lines' });
   const lines = watch('lines');
   const currencyCode = watch('currency_code');
+  const entryDate = watch('entry_date');
   const { totalDebit, totalCredit, diff } = calcTotals(lines ?? []);
   const balanced = diff < 0.0001;
 
-  // When currency changes back to base, reset exchange rate
+  // When currency changes back to base, reset exchange rate; otherwise auto-fetch
   useEffect(() => {
     if (currencyCode === baseCurrency) {
       setValue('exchange_rate', 1);
+    } else if (bookId && currencyCode && entryDate) {
+      getRateForDate(bookId, currencyCode, baseCurrency, entryDate)
+        .then(rate => {
+          if (rate !== null) setValue('exchange_rate', rate);
+        })
+        .catch(() => {/* silently ignore */});
     }
-  }, [currencyCode, baseCurrency, setValue]);
+  }, [currencyCode, baseCurrency, bookId, entryDate, setValue]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -153,6 +163,9 @@ export function JournalEntryForm({
               className="w-28"
               {...register('exchange_rate', { valueAsNumber: true })}
             />
+            <p className="text-xs text-muted-foreground">
+              1 {currencyCode} = {watch('exchange_rate')} {baseCurrency}
+            </p>
           </div>
         )}
       </div>

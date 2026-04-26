@@ -123,6 +123,19 @@ export default function AppLayout() {
             </NavLink>
           ))}
         </div>
+        <NavLink
+          to="/currencies"
+          className={({ isActive }) =>
+            cn(
+              'flex items-center gap-2 px-2 py-2 rounded-md text-sm transition-colors',
+              isActive
+                ? 'bg-accent text-accent-foreground font-medium'
+                : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
+            )
+          }
+        >
+          Tasas de cambio
+        </NavLink>
       </aside>
 
       {/* Mobile header */}

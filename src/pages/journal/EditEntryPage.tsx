@@ -75,6 +75,7 @@ export default function EditEntryPage() {
         accounts={accounts ?? []}
         currencies={currencies ?? []}
         baseCurrency={myBook?.base_currency ?? 'USD'}
+        bookId={activeBookId ?? undefined}
         initial={entry}
         onSubmit={handleSubmit}
         onCancel={() => navigate('/journal')}

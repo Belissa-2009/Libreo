@@ -895,6 +895,15 @@ export type Database = {
         }
         Returns: string
       }
+      get_exchange_rate: {
+        Args: {
+          p_book_id: string
+          p_date: string
+          p_from: string
+          p_to: string
+        }
+        Returns: number
+      }
       is_book_member: {
         Args: {
           p_book_id: string
@@ -932,10 +941,14 @@ export type Database = {
         Returns: {
           balance: number
           credit: number
+          currency_code: string
           debit: number
           description: string
           entry_date: string
+          exchange_rate: number
           line_id: string
+          orig_credit: number
+          orig_debit: number
           reference: string
         }[]
       }
