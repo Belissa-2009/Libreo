@@ -27,6 +27,7 @@ Este directorio contiene las **historias de usuario (US)** y **criterios de acep
 | [US-08-exportacion.md](US-08-exportacion.md) | Exportación PDF/Excel/CSV | 11 | ✅ Implementado |
 | [US-09-pwa.md](US-09-pwa.md) | PWA e instalación | 13 | ✅ Implementado |
 | [US-10-roles-permisos.md](US-10-roles-permisos.md) | Roles y permisos (transversal) | 02, 04 | ✅ Implementado |
+| [US-11-perfil-preferencias.md](US-11-perfil-preferencias.md) | Perfil y preferencias del sistema | Transversal | ⬜ Pendiente |
 
 ---
 

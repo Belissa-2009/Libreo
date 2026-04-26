@@ -6,6 +6,7 @@ import { createEntry } from '@/features/journal/api';
 import type { EntryInput } from '@/features/journal/schemas';
 import { JournalEntryForm } from '@/features/journal/components/JournalEntryForm';
 import { useAccounts } from '@/features/accounts/hooks/useAccounts';
+import { useUserPreferences } from '@/features/profile/hooks/useUserPreferences';
 import { supabase } from '@/lib/supabase';
 import { listBooks } from '@/features/books/api';
 import { useAuth } from '@/features/auth/AuthProvider';
@@ -17,6 +18,7 @@ export default function NewEntryPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const { defaultCurrencyCode } = useUserPreferences();
 
   const { data: books } = useQuery({
     queryKey: ['books', user?.id],
@@ -62,7 +64,8 @@ export default function NewEntryPage() {
       <JournalEntryForm
         accounts={accounts ?? []}
         currencies={currencies ?? []}
-        baseCurrency={myBook?.base_currency ?? 'USD'}
+        baseCurrency={myBook?.base_currency ?? 'DOP'}
+        defaultCurrencyCode={defaultCurrencyCode}
         bookId={activeBookId}
         onSubmit={handleSubmit}
         onCancel={() => navigate('/journal')}

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
@@ -11,6 +11,7 @@ import { useActiveBook } from '@/features/books/useActiveBook'
 import { useAccounts } from '@/features/accounts/hooks/useAccounts'
 import { useCreateLoan } from '@/features/loans/hooks/useLoans'
 import { createLoanSchema, type CreateLoanInput } from '@/features/loans/schemas'
+import { useUserPreferences } from '@/features/profile/hooks/useUserPreferences'
 import { supabase } from '@/lib/supabase'
 import { toast } from 'sonner'
 import { ArrowLeft } from 'lucide-react'
@@ -49,6 +50,8 @@ export default function NewLoanPage() {
   const { data: accounts = [] } = useAccounts(activeBookId)
   const createLoan = useCreateLoan(activeBookId!)
   const [currencies, setCurrencies] = useState<{ code: string; name: string }[]>([])
+  const { defaultCurrencyCode, isLoading: prefsLoading } = useUserPreferences()
+  const prefsApplied = useRef(false)
 
   useEffect(() => {
     supabase.from('currencies').select('code, name').order('code').then(({ data }) => {
@@ -61,6 +64,7 @@ export default function NewLoanPage() {
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<CreateLoanInput>({
     resolver: zodResolver(createLoanSchema),
@@ -77,6 +81,14 @@ export default function NewLoanPage() {
       notes: '',
     },
   })
+
+  // Apply user's preferred currency once preferences finish loading
+  useEffect(() => {
+    if (!prefsLoading && !prefsApplied.current) {
+      prefsApplied.current = true
+      setValue('currency_code', defaultCurrencyCode)
+    }
+  }, [prefsLoading, defaultCurrencyCode, setValue])
 
   const loanType = watch('type')
 

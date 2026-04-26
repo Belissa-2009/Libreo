@@ -23,6 +23,7 @@ interface Props {
   accounts: Account[];
   currencies: { code: string; name: string }[];
   baseCurrency: string;
+  defaultCurrencyCode?: string;
   bookId?: string;
   initial?: EntryWithLines;
   onSubmit: (data: EntryInput) => Promise<void>;
@@ -37,6 +38,7 @@ export function JournalEntryForm({
   accounts,
   currencies,
   baseCurrency,
+  defaultCurrencyCode,
   bookId,
   initial,
   onSubmit,
@@ -70,7 +72,7 @@ export function JournalEntryForm({
         entry_date: today,
         description: '',
         reference: '',
-        currency_code: baseCurrency,
+        currency_code: defaultCurrencyCode ?? baseCurrency,
         exchange_rate: 1,
         lines: [
           { account_id: '', debit: 0, credit: 0, memo: '' },
