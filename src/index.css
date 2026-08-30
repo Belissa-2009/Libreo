@@ -112,3 +112,12 @@ body {
   color: var(--foreground);
 }
 
+
+/* Scroller horizontal sin barra visible (nav de secciones en móvil) */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -108,7 +108,7 @@ export default function NewLoanPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-6">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
           <Link to="/loans"><ArrowLeft className="h-4 w-4" /></Link>
@@ -174,7 +174,7 @@ export default function NewLoanPage() {
             </div>
 
             {/* Capital / Tasa / Plazo */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <div className="space-y-1.5">
                 <Label>Capital</Label>
                 <Input type="number" step="0.01" min="0" {...register('principal', { valueAsNumber: true })} />

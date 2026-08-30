@@ -28,7 +28,7 @@ export default function LoanDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-4">
+      <div className="p-4 md:p-6 space-y-4">
         <Skeleton className="h-8 w-64" />
         <Skeleton className="h-64 w-full" />
       </div>
@@ -47,7 +47,7 @@ export default function LoanDetailPage() {
   const totalInterest = active.reduce((s, r) => s + Number(r.interest_portion), 0)
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 md:p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" asChild>
