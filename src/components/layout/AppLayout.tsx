@@ -1,5 +1,18 @@
-import { NavLink, Outlet, useNavigate } from 'react-router';
-import { Home, User, BookOpen, ChevronDown, BookMarked, FileText, BarChart2, CreditCard } from 'lucide-react';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router';
+import {
+  Home,
+  User,
+  BookOpen,
+  ChevronDown,
+  BookMarked,
+  FileText,
+  BarChart2,
+  CreditCard,
+  Scale,
+  TrendingUp,
+  Landmark,
+  Coins,
+} from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
 import { useActiveBook } from '@/features/books/useActiveBook';
@@ -15,6 +28,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { InstallPrompt } from '@/components/InstallPrompt';
 import { UpdateToast } from '@/components/UpdateToast';
+import { MobileSectionNav, type SectionNavItem } from '@/components/layout/MobileSectionNav';
 
 const navItems = [
   { to: '/', label: 'Inicio', icon: Home, end: true },
@@ -23,6 +37,28 @@ const navItems = [
   { to: '/reports/ledger', label: 'Reportes', icon: BarChart2, end: false },
   { to: '/profile', label: 'Perfil', icon: User, end: false },
 ];
+
+const reportNavItems: SectionNavItem[] = [
+  { to: '/reports/ledger', label: 'Mayor', icon: BookOpen },
+  { to: '/reports/trial-balance', label: 'Bal. Comprobación', shortLabel: 'Comprobación', icon: Scale },
+  { to: '/reports/income-statement', label: 'Estado de Resultados', shortLabel: 'Resultados', icon: TrendingUp },
+  { to: '/reports/balance-sheet', label: 'Balance General', shortLabel: 'Balance', icon: Landmark },
+];
+
+const toolNavItems: SectionNavItem[] = [
+  { to: '/currencies', label: 'Tasas de cambio', shortLabel: 'Tasas', icon: Coins },
+  { to: '/loans', label: 'Préstamos', icon: CreditCard },
+];
+
+const sectionNavItems = [...reportNavItems, ...toolNavItems];
+
+const sidebarLinkClass = ({ isActive }: { isActive: boolean }) =>
+  cn(
+    'flex items-center gap-2 px-2 py-2 rounded-md text-sm transition-colors',
+    isActive
+      ? 'bg-accent text-accent-foreground font-medium'
+      : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
+  );
 
 function BookSelector() {
   const { user } = useAuth();
@@ -75,6 +111,13 @@ function BookSelector() {
 }
 
 export default function AppLayout() {
+  const { pathname } = useLocation();
+  // Visible solo dentro de las secciones que la propia barra enlaza, para no dejar
+  // esas rutas sin forma de volver a las demás.
+  const showSectionNav = sectionNavItems.some(
+    ({ to }) => pathname === to || pathname.startsWith(`${to}/`)
+  );
+
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
       {/* Sidebar — desktop */}
@@ -84,31 +127,14 @@ export default function AppLayout() {
           <BookSelector />
         </div>
         {navItems.map(({ to, label, icon: Icon, end }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={end}
-            className={({ isActive }) =>
-              cn(
-                'flex items-center gap-2 px-2 py-2 rounded-md text-sm transition-colors',
-                isActive
-                  ? 'bg-accent text-accent-foreground font-medium'
-                  : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
-              )
-            }
-          >
+          <NavLink key={to} to={to} end={end} className={sidebarLinkClass}>
             <Icon className="h-4 w-4" />
             {label}
           </NavLink>
         ))}
         <div className="pt-1 pb-0.5">
           <p className="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Reportes</p>
-          {[
-            { to: '/reports/ledger', label: 'Mayor' },
-            { to: '/reports/trial-balance', label: 'Bal. Comprobación' },
-            { to: '/reports/income-statement', label: 'Estado de Resultados' },
-            { to: '/reports/balance-sheet', label: 'Balance General' },
-          ].map(({ to, label }) => (
+          {reportNavItems.map(({ to, label }) => (
             <NavLink
               key={to}
               to={to}
@@ -125,40 +151,26 @@ export default function AppLayout() {
             </NavLink>
           ))}
         </div>
-        <NavLink
-          to="/currencies"
-          className={({ isActive }) =>
-            cn(
-              'flex items-center gap-2 px-2 py-2 rounded-md text-sm transition-colors',
-              isActive
-                ? 'bg-accent text-accent-foreground font-medium'
-                : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
-            )
-          }
-        >
+        <NavLink to="/currencies" className={sidebarLinkClass}>
           Tasas de cambio
         </NavLink>
-        <NavLink
-          to="/loans"
-          className={({ isActive }) =>
-            cn(
-              'flex items-center gap-2 px-2 py-2 rounded-md text-sm transition-colors',
-              isActive
-                ? 'bg-accent text-accent-foreground font-medium'
-                : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
-            )
-          }
-        >
+        <NavLink to="/loans" className={sidebarLinkClass}>
           <CreditCard className="h-4 w-4" />
           Préstamos
         </NavLink>
       </aside>
 
-      {/* Mobile header */}
-      <header className="md:hidden flex items-center justify-between border-b px-3 bg-background sticky top-0 z-10" style={{ paddingTop: 'max(0.5rem, env(safe-area-inset-top))', paddingBottom: '0.5rem' }}>
-        <span className="font-bold text-sm">Libreo</span>
-        <BookSelector />
-      </header>
+      {/* Header móvil (+ nav deslizable de secciones, solo en /reports) */}
+      <div className="md:hidden sticky top-0 z-10 border-b bg-background">
+        <header
+          className="flex items-center justify-between px-3"
+          style={{ paddingTop: 'max(0.5rem, env(safe-area-inset-top))', paddingBottom: '0.5rem' }}
+        >
+          <span className="font-bold text-sm">Libreo</span>
+          <BookSelector />
+        </header>
+        {showSectionNav && <MobileSectionNav items={sectionNavItems} />}
+      </div>
 
       {/* Main content */}
       {/* pb compensa la nav fija + safe-area-inset-bottom via CSS var definida en index.css */}
@@ -193,4 +205,3 @@ export default function AppLayout() {
     </div>
   );
 }
-
