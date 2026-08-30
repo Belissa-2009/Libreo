@@ -61,7 +61,7 @@ export default function AcceptInvitationPage() {
         <CardContent>
           {status === 'success' && (
             <div className="space-y-3">
-              <p className="text-sm text-green-600">¡Te uniste al libro con éxito!</p>
+              <p className="text-sm text-green-600 dark:text-green-400">¡Te uniste al libro con éxito!</p>
               <p className="text-xs text-muted-foreground">Redirigiendo...</p>
             </div>
           )}

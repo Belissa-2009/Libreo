@@ -5,11 +5,11 @@ import type { AccountNode } from '../hooks/useAccounts';
 import { Edit2, Trash2, PowerOff } from 'lucide-react';
 
 const typeColors: Record<string, string> = {
-  asset: 'bg-blue-100 text-blue-700',
-  liability: 'bg-red-100 text-red-700',
-  equity: 'bg-purple-100 text-purple-700',
-  income: 'bg-green-100 text-green-700',
-  expense: 'bg-orange-100 text-orange-700',
+  asset: 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300',
+  liability: 'bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300',
+  equity: 'bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300',
+  income: 'bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300',
+  expense: 'bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300',
 };
 
 const typeLabels: Record<string, string> = {
