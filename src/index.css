@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Modo oscuro por clase en <html> (lo controla next-themes), no por prefers-color-scheme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --spacing-safe-top: env(safe-area-inset-top);
   --spacing-safe-bottom: env(safe-area-inset-bottom);

@@ -117,7 +117,7 @@ export default function TrialBalancePage() {
                           <td className="px-3 py-2">{r.name}</td>
                           <td className="px-3 py-2 text-right tabular-nums">{fmt(r.total_debit)}</td>
                           <td className="px-3 py-2 text-right tabular-nums">{fmt(r.total_credit)}</td>
-                          <td className={`px-3 py-2 text-right tabular-nums ${r.balance < 0 ? 'text-red-600' : ''}`}>
+                          <td className={`px-3 py-2 text-right tabular-nums ${r.balance < 0 ? 'text-red-600 dark:text-red-400' : ''}`}>
                             {fmt(r.balance)}
                           </td>
                         </tr>
@@ -135,7 +135,7 @@ export default function TrialBalancePage() {
               <span className="flex gap-8 tabular-nums">
                 <span>D: {fmt(totalDebit)}</span>
                 <span>C: {fmt(totalCredit)}</span>
-                {balanced && <span className="text-green-600">✓ Cuadra</span>}
+                {balanced && <span className="text-green-600 dark:text-green-400">✓ Cuadra</span>}
               </span>
             </div>
           )}

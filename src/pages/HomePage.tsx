@@ -85,10 +85,20 @@ export default function HomePage() {
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
-                <Tooltip formatter={(v) => [typeof v === 'number' ? fmt(v) : v, '']} />
-                <Legend />
+                <XAxis dataKey="name" tick={{ fontSize: 12, fill: 'var(--muted-foreground)' }} />
+                <YAxis tick={{ fontSize: 12, fill: 'var(--muted-foreground)' }} />
+                <Tooltip
+                  formatter={(v) => [typeof v === 'number' ? fmt(v) : v, '']}
+                  cursor={{ fill: 'var(--accent)' }}
+                  contentStyle={{
+                    background: 'var(--popover)',
+                    color: 'var(--popover-foreground)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 'var(--radius-md)',
+                  }}
+                  labelStyle={{ color: 'var(--popover-foreground)' }}
+                />
+                <Legend wrapperStyle={{ color: 'var(--muted-foreground)' }} />
                 <Bar dataKey="Ingresos" fill="#22c55e" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="Gastos" fill="#ef4444" radius={[4, 4, 0, 0]} />
               </BarChart>

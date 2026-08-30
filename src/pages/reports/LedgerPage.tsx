@@ -116,7 +116,7 @@ export default function LedgerPage() {
                   <td className="px-3 py-2 text-muted-foreground">{r.reference}</td>
                   <td className="px-3 py-2 text-right tabular-nums">{r.debit ? fmt(r.debit) : ''}</td>
                   <td className="px-3 py-2 text-right tabular-nums">{r.credit ? fmt(r.credit) : ''}</td>
-                  <td className={`px-3 py-2 text-right tabular-nums font-medium ${r.balance < 0 ? 'text-red-600' : ''}`}>
+                  <td className={`px-3 py-2 text-right tabular-nums font-medium ${r.balance < 0 ? 'text-red-600 dark:text-red-400' : ''}`}>
                     {fmt(r.balance)}
                   </td>
                 </tr>

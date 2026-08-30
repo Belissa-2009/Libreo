@@ -29,6 +29,7 @@ import { Button } from '@/components/ui/button';
 import { InstallPrompt } from '@/components/InstallPrompt';
 import { UpdateToast } from '@/components/UpdateToast';
 import { MobileSectionNav, type SectionNavItem } from '@/components/layout/MobileSectionNav';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const navItems = [
   { to: '/', label: 'Inicio', icon: Home, end: true },
@@ -158,6 +159,10 @@ export default function AppLayout() {
           <CreditCard className="h-4 w-4" />
           Préstamos
         </NavLink>
+        <div className="mt-auto flex items-center justify-between pt-3">
+          <span className="px-2 text-xs text-muted-foreground">Tema</span>
+          <ThemeToggle />
+        </div>
       </aside>
 
       {/* Header móvil (+ nav deslizable de secciones, solo en /reports) */}
@@ -167,7 +172,10 @@ export default function AppLayout() {
           style={{ paddingTop: 'max(0.5rem, env(safe-area-inset-top))', paddingBottom: '0.5rem' }}
         >
           <span className="font-bold text-sm">Libreo</span>
-          <BookSelector />
+          <div className="flex items-center gap-1">
+            <BookSelector />
+            <ThemeToggle />
+          </div>
         </header>
         {showSectionNav && <MobileSectionNav items={sectionNavItems} />}
       </div>
