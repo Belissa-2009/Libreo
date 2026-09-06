@@ -21,6 +21,13 @@ import { ExtraPaymentDialog } from '@/features/loans/components/ExtraPaymentDial
 const fmt = (n: number) =>
   new Intl.NumberFormat('es', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n)
 
+const frequencyLabels = {
+  daily: 'diaria',
+  weekly: 'semanal',
+  biweekly: 'quincenal',
+  monthly: 'mensual',
+} as const
+
 export default function LoanDetailPage() {
   const { id } = useParams<{ id: string }>()
   const { data: loan, isLoading } = useLoan(id ?? null)
@@ -62,7 +69,7 @@ export default function LoanDetailPage() {
             <Badge variant="outline">{loan.currency_code}</Badge>
           </div>
           <p className="text-sm text-muted-foreground">
-            {loan.term_months} meses · {Number(loan.annual_rate)}% anual · desde {loan.start_date}
+            {loan.term_months} cuotas {frequencyLabels[loan.frequency]} · {Number(loan.annual_rate)}% anual · desde {loan.start_date}
           </p>
         </div>
         <Button variant="outline" onClick={() => setExtraOpen(true)}>

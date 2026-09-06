@@ -7,6 +7,7 @@ export const createLoanSchema = z.object({
   principal: z.number().min(0.01),
   annual_rate: z.number().min(0),
   term_months: z.number().int().min(1),
+  frequency: z.enum(['daily', 'weekly', 'biweekly', 'monthly']),
   start_date: z.string().min(1),
   asset_account_id: z.string().optional(),
   liability_account_id: z.string().optional(),

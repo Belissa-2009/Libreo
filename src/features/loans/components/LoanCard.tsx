@@ -5,6 +5,13 @@ import type { Loan, LoanSchedule } from '../api'
 const fmt = (n: number) =>
   new Intl.NumberFormat('es', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n)
 
+const frequencyLabels = {
+  daily: 'diaria',
+  weekly: 'semanal',
+  biweekly: 'quincenal',
+  monthly: 'mensual',
+} as const
+
 interface LoanCardProps {
   loan: Loan
   schedule?: LoanSchedule[]
@@ -46,8 +53,8 @@ export function LoanCard({ loan, schedule = [], onClick }: LoanCardProps) {
           <span className="font-medium">{fmt(balance)}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Tasa anual</span>
-          <span>{Number(loan.annual_rate)}%</span>
+          <span className="text-muted-foreground">Tasa / frecuencia</span>
+          <span>{Number(loan.annual_rate)}% / {frequencyLabels[loan.frequency]}</span>
         </div>
         {next && (
           <div className="flex justify-between">

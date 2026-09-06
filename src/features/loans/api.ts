@@ -46,6 +46,7 @@ export async function createLoan(bookId: string, input: CreateLoanInput): Promis
       principal: input.principal,
       annual_rate: input.annual_rate,
       term_months: input.term_months,
+      frequency: input.frequency,
       start_date: input.start_date,
       asset_account_id: input.asset_account_id ?? null,
       liability_account_id: input.liability_account_id ?? null,

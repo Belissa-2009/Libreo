@@ -1085,7 +1085,7 @@ export type Database = {
     }
     Enums: {
       account_type: "asset" | "liability" | "equity" | "income" | "expense"
-      loan_frequency: "monthly" | "biweekly" | "weekly"
+      loan_frequency: "daily" | "monthly" | "biweekly" | "weekly"
       loan_method: "french" | "german" | "american"
       loan_type: "received" | "given"
       member_role: "admin" | "editor" | "viewer"
@@ -1225,7 +1225,7 @@ export const Constants = {
   public: {
     Enums: {
       account_type: ["asset", "liability", "equity", "income", "expense"],
-      loan_frequency: ["monthly", "biweekly", "weekly"],
+      loan_frequency: ["daily", "monthly", "biweekly", "weekly"],
       loan_method: ["french", "german", "american"],
       loan_type: ["received", "given"],
       member_role: ["admin", "editor", "viewer"],
