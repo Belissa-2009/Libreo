@@ -5,7 +5,7 @@ export const createLoanSchema = z.object({
   counterparty: z.string().min(1),
   currency_code: z.string().min(1, 'Selecciona una moneda'),
   principal: z.number().min(0.01),
-  annual_rate: z.number().min(0),
+  rate: z.number().min(0),
   term_months: z.number().int().min(1),
   frequency: z.enum(['daily', 'weekly', 'biweekly', 'monthly']),
   start_date: z.string().min(1),

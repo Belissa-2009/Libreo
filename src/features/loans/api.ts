@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase'
 import type { Database } from '@/types/database'
 import type { CreateLoanInput } from './schemas'
+import { annualRateFromPeriodic } from './rates'
 
 export type Loan = Database['public']['Tables']['loans']['Row']
 export type LoanSchedule = Database['public']['Tables']['loan_schedule']['Row']
@@ -44,7 +45,7 @@ export async function createLoan(bookId: string, input: CreateLoanInput): Promis
       counterparty: input.counterparty,
       currency_code: input.currency_code,
       principal: input.principal,
-      annual_rate: input.annual_rate,
+      annual_rate: annualRateFromPeriodic(input.rate, input.frequency),
       term_months: input.term_months,
       frequency: input.frequency,
       start_date: input.start_date,

@@ -73,7 +73,7 @@ export default function NewLoanPage() {
       counterparty: '',
       currency_code: 'DOP',
       principal: 0,
-      annual_rate: 0,
+      rate: 0,
       term_months: 12,
       frequency: 'monthly',
       start_date: new Date().toISOString().slice(0, 10),
@@ -174,7 +174,7 @@ export default function NewLoanPage() {
               {errors.currency_code && <p className="text-xs text-destructive">{errors.currency_code.message}</p>}
             </div>
 
-            {/* Capital / Tasa / Frecuencia / Plazo */}
+            {/* Capital / Tasa / Periodicidad / Plazo */}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-4">
               <div className="space-y-1.5">
                 <Label>Capital</Label>
@@ -182,12 +182,12 @@ export default function NewLoanPage() {
                 {errors.principal && <p className="text-xs text-destructive">{errors.principal.message}</p>}
               </div>
               <div className="space-y-1.5">
-                <Label>Tasa anual (%)</Label>
-                <Input type="number" step="0.01" min="0" {...register('annual_rate', { valueAsNumber: true })} />
-                {errors.annual_rate && <p className="text-xs text-destructive">{errors.annual_rate.message}</p>}
+                <Label>Tasa (%)</Label>
+                <Input type="number" step="0.01" min="0" {...register('rate', { valueAsNumber: true })} />
+                {errors.rate && <p className="text-xs text-destructive">{errors.rate.message}</p>}
               </div>
               <div className="space-y-1.5">
-                <Label>Frecuencia</Label>
+                <Label>Periodicidad de la tasa</Label>
                 <Controller
                   control={control}
                   name="frequency"

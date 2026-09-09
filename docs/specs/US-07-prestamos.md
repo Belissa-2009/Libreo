@@ -27,7 +27,8 @@ El módulo de préstamos permite registrar obligaciones financieras (recibidas u
   - Contraparte: nombre del banco, persona o entidad.
   - Divisa (`currency_code`): moneda del préstamo (DOP o USD); requerida al crear el préstamo.
   - Capital: monto principal del préstamo (número positivo).
-  - Tasa anual (%): tasa de interés anual.
+  - Tasa (%): tasa de interés correspondiente al período seleccionado.
+  - Periodicidad de la tasa: diaria, semanal, quincenal o mensual.
   - Plazo (meses): duración total.
   - Fecha de inicio: fecha del primer desembolso.
   - Cuenta de interés: cuenta contable para registrar los intereses.
@@ -119,3 +120,4 @@ El módulo de préstamos permite registrar obligaciones financieras (recibidas u
   - `loans.currency_code`: TEXT NOT NULL DEFAULT 'DOP'. Indica la moneda en que está denominado el préstamo. Requerida al crear.
   - `loan_schedule.currency_code`: TEXT NULLABLE (FK → `currencies.code`). Permite registrar la moneda real de cada cuota del calendario; NULL indica que hereda la del préstamo.
   - `loan_payments.currency_code`: TEXT NULLABLE (FK → `currencies.code`). Permite registrar la moneda real del pago efectuado; NULL indica que hereda la del préstamo.
+- **Tasas:** la interfaz recibe la tasa del período seleccionado y la normaliza internamente a una tasa anual para conservar compatibilidad con el esquema y las funciones SQL existentes.

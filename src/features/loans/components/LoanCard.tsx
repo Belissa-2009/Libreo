@@ -1,16 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import type { Loan, LoanSchedule } from '../api'
+import { frequencyLabels, periodicRateFromAnnual } from '../rates'
 
 const fmt = (n: number) =>
   new Intl.NumberFormat('es', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n)
-
-const frequencyLabels = {
-  daily: 'diaria',
-  weekly: 'semanal',
-  biweekly: 'quincenal',
-  monthly: 'mensual',
-} as const
 
 interface LoanCardProps {
   loan: Loan
@@ -53,8 +47,8 @@ export function LoanCard({ loan, schedule = [], onClick }: LoanCardProps) {
           <span className="font-medium">{fmt(balance)}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Tasa / frecuencia</span>
-          <span>{Number(loan.annual_rate)}% / {frequencyLabels[loan.frequency]}</span>
+          <span className="text-muted-foreground">Tasa / periodicidad</span>
+          <span>{periodicRateFromAnnual(Number(loan.annual_rate), loan.frequency).toFixed(2)}% / {frequencyLabels[loan.frequency]}</span>
         </div>
         {next && (
           <div className="flex justify-between">

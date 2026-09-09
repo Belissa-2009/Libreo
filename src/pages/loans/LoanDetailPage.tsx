@@ -17,16 +17,10 @@ import { ArrowLeft, CreditCard } from 'lucide-react'
 import { useLoan } from '@/features/loans/hooks/useLoans'
 import { ScheduleTable } from '@/features/loans/components/ScheduleTable'
 import { ExtraPaymentDialog } from '@/features/loans/components/ExtraPaymentDialog'
+import { frequencyLabels, periodicRateFromAnnual } from '@/features/loans/rates'
 
 const fmt = (n: number) =>
   new Intl.NumberFormat('es', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n)
-
-const frequencyLabels = {
-  daily: 'diaria',
-  weekly: 'semanal',
-  biweekly: 'quincenal',
-  monthly: 'mensual',
-} as const
 
 export default function LoanDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -69,7 +63,7 @@ export default function LoanDetailPage() {
             <Badge variant="outline">{loan.currency_code}</Badge>
           </div>
           <p className="text-sm text-muted-foreground">
-            {loan.term_months} cuotas {frequencyLabels[loan.frequency]} · {Number(loan.annual_rate)}% anual · desde {loan.start_date}
+            {loan.term_months} cuotas {frequencyLabels[loan.frequency]} · {periodicRateFromAnnual(Number(loan.annual_rate), loan.frequency).toFixed(2)}% {frequencyLabels[loan.frequency]} · desde {loan.start_date}
           </p>
         </div>
         <Button variant="outline" onClick={() => setExtraOpen(true)}>
